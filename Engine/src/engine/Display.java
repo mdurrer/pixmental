@@ -23,6 +23,7 @@ public class Display extends Canvas {
     private  byte[] m_displayComponents;
     private final BufferStrategy m_bufferStrategy;
     private final Graphics m_graphics;
+    public Bitmap GetFrameBuffer() { return m_frameBuffer; }
 
     public Display(int width, int height, String title)
     {
@@ -42,12 +43,15 @@ public class Display extends Canvas {
         m_displayComponents = 
                 ((DataBufferByte)m_displayImage.getRaster().getDataBuffer()).getData();
 
-        m_frameBuffer.Clear((byte)0x00);
+        m_frameBuffer.Clear((byte)0x80);
+	m_frameBuffer.DrawPixel(100, 100, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0xFF);
+        /*
         for (int i=0;i<=100;i++)
         {
                 m_frameBuffer.DrawPixel(100+i, 100+i, (byte)0x00, (byte)0x00, (byte)0xFF, (byte)0x00);
     
         }
+        */
         m_frame = new JFrame();
         m_frame.add(this);
         m_frame.pack();
@@ -59,7 +63,9 @@ public class Display extends Canvas {
         createBufferStrategy(1);
         m_bufferStrategy = getBufferStrategy();
         m_graphics = m_bufferStrategy.getDrawGraphics();
+        
     }
+    
 	public void SwapBuffers()
 	{
 		//Display components should be the byte array used for displayImage's pixels.
